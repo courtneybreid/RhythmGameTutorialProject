@@ -9,6 +9,8 @@ public class Lane : MonoBehaviour
     public Melanchall.DryWetMidi.MusicTheory.NoteName noteRestriction;
     public KeyCode input;
     public GameObject notePrefab;
+    public double showUpAtTime = 0;
+    public GameObject noteTarget;
     List<Note> notes = new List<Note>();
     public List<double> timeStamps = new List<double>();
 
@@ -71,7 +73,12 @@ public class Lane : MonoBehaviour
                 print($"Missed {inputIndex} note");
                 inputIndex++;
             }
-        }       
+        } 
+        if(showUpAtTime > 0 && SongManager.GetAudioSourceTime() > showUpAtTime)
+        {
+            Debug.Log("show");
+            ShowSprite(true);
+        }      
     
     }
     private void Hit()
@@ -81,5 +88,9 @@ public class Lane : MonoBehaviour
     private void Miss()
     {
         ScoreManager.Miss();
+    }
+    private void ShowSprite(bool show)
+    {
+        noteTarget.SetActive(true);
     }
 }
